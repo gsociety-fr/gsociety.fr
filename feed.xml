@@ -3,20 +3,20 @@
     <title>GSociety</title>
     <link href="https://gsociety.fr/feed.xml" rel="self" />
     <link href="https://gsociety.fr" />
-    <updated>2025-05-22T00:41:07+02:00</updated>
+    <updated>2025-05-22T01:10:42+02:00</updated>
     <author>
         <name>Guisch</name>
     </author>
     <id>https://gsociety.fr</id>
 
     <entry>
-        <title>The Great Subdomain Heist: How I Took Over 4,000 GitHub Pages Domains (And Why GitHub Doesn&#x27;t Care)</title>
+        <title>The Great Subdomain Heist</title>
         <author>
             <name>Guisch</name>
         </author>
         <link href="https://gsociety.fr/how-my-own-domain-got-hijacked-on-github-pages/"/>
         <id>https://gsociety.fr/how-my-own-domain-got-hijacked-on-github-pages/</id>
-        <media:content url="https://gsociety.fr/media/posts/2/ChatGPT-Image-21-mai-2025-22_27_37-2.png" medium="image" />
+        <media:content url="https://gsociety.fr/media/posts/2/ChatGPT-Image-22-mai-2025-01_06_22.png" medium="image" />
             <category term="subdomaintakeover"/>
             <category term="infosec"/>
             <category term="githubpages"/>
@@ -27,13 +27,13 @@
         <updated>2025-05-18T23:07:41+02:00</updated>
             <summary>
                 <![CDATA[
-                        <img src="https://gsociety.fr/media/posts/2/ChatGPT-Image-21-mai-2025-22_27_37-2.png" alt="The github octopus piloting a sport car" />
+                        <img src="https://gsociety.fr/media/posts/2/ChatGPT-Image-22-mai-2025-01_06_22.png" alt="The GitHub octopus fighting on Helldivers 2 environment" />
                     I was deep into an intense Helldivers 2 session when Google Search&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://gsociety.fr/media/posts/2/ChatGPT-Image-21-mai-2025-22_27_37-2.png" class="type:primaryImage" alt="The github octopus piloting a sport car" /></p>
+                    <p><img src="https://gsociety.fr/media/posts/2/ChatGPT-Image-22-mai-2025-01_06_22.png" class="type:primaryImage" alt="The GitHub octopus fighting on Helldivers 2 environment" /></p>
                 <p class="my-0">I was deep into an intense Helldivers 2 session when Google Search Console notifications interrupted my battle against the alien hordes. Someone had claimed ownership of a subdomain I didn't even know existed: <code>ftp.malvetro.corsica</code>.</p>
 <p class="my-0">Within minutes, I went from fighting digital aliens to investigating a real security incident, one that would eventually reveal a massive vulnerability affecting thousands of domains worldwide. More concerning? GitHub knows about it and isn't fixing it.</p>
 <h1 id="the-initial-discovery" class="mb-2 mt-6 text-lg font-[500] first:mt-0 dark:font-[475]">The Initial Discovery</h1>
