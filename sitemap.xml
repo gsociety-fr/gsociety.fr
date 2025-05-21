@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="https://gsociety.fr/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<url>
+<loc>https://gsociety.fr/</loc>
+</url>
+<url>
+<loc>https://gsociety.fr/contact/</loc>
+<lastmod>2025-05-20T01:20:06+02:00</lastmod>
+</url>
+<url>
+<loc>https://gsociety.fr/how-my-own-domain-got-hijacked-on-github-pages/</loc>
+<lastmod>2025-05-22T00:41:07+02:00</lastmod>
+<image:image>
+<image:loc>https://gsociety.fr/media/posts/2/ChatGPT-Image-21-mai-2025-22_27_37-2.png</image:loc>
+<image:title><![CDATA[The github octopus piloting a sport car]]></image:title>
+</image:image>
+</url>
+<url>
+<loc>https://gsociety.fr/privacy-policy/</loc>
+<lastmod>2025-05-20T02:01:57+02:00</lastmod>
+</url>
+</urlset>
