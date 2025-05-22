@@ -93,13 +93,10 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
 			}, false);</script></div></div></div></div><div class="content__section banner"><div class="main__inner"><script>window.addEventListener('load', function() {
     // Wait for the iframe to be loaded inside the .comment-wrapper div
     const checkIframeLoaded = setInterval(function() {
-        const iframe = document.querySelector(".comments-wrapper iframe");
-        console.log("iframe not found")
-        if (iframe) {
-            console.log("iframe found")
+        if (document.querySelector(".comments-wrapper iframe")) {
             clearInterval(checkIframeLoaded); // Stop checking once iframe is found
 
-            iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+            document.querySelector(".comments-wrapper iframe").style.height = document.querySelector(".comments-wrapper iframe").contentWindow.document.documentElement.scrollHeight + 'px';
         }
     }, 100); // Check every 100ms until iframe is found
 });</script></div></div></main><div class="right-bar"><div class="right-bar__inner"><div class="sidebar"><section class="box tags"><h3 class="box__title">Recommended Topics</h3><ul class="tags__list"><li class="tags__item"><a href="https://gsociety.fr/tags/bugbounty/" class="btn btn--gray">bugbounty <sup>(1)</sup></a></li><li class="tags__item"><a href="https://gsociety.fr/tags/cybersecurity/" class="btn btn--gray">cybersecurity <sup>(1)</sup></a></li><li class="tags__item"><a href="https://gsociety.fr/tags/dns/" class="btn btn--gray">dns <sup>(1)</sup></a></li><li class="tags__item"><a href="https://gsociety.fr/tags/githubpages/" class="btn btn--gray">githubpages <sup>(1)</sup></a></li><li class="tags__item"><a href="https://gsociety.fr/tags/infosec/" class="btn btn--gray">infosec <sup>(1)</sup></a></li><li class="tags__item"><a href="https://gsociety.fr/tags/subdomaintakeover/" class="btn btn--gray">subdomaintakeover <sup>(1)</sup></a></li></ul></section><div class="box follow"><a href="https://x.com/Guisch_" class="tltp tltp--top" aria-label="Twitter"><svg><use xlink:href="https://gsociety.fr/assets/svg/svg-map.svg#twitter"/></svg> <span>Twitter</span> </a><a href="https://www.linkedin.com/in/gsociety/" class="tltp tltp--top" aria-label="LinkedIn"><svg><use xlink:href="https://gsociety.fr/assets/svg/svg-map.svg#linkedin"/></svg> <span>LinkedIn</span></a></div><div class="box copyright">GSociety 2025</div></div></div></div></div><script defer="defer" src="https://gsociety.fr/assets/js/scripts.min.js?v=b2d91bcadbf5db401b76eb5bb3092eb7"></script><script>var images = document.querySelectorAll('img[loading]');
