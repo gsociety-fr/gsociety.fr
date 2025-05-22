@@ -3,7 +3,7 @@
     <title>GSociety</title>
     <link href="https://gsociety.fr/feed.xml" rel="self" />
     <link href="https://gsociety.fr" />
-    <updated>2025-05-22T01:10:42+02:00</updated>
+    <updated>2025-05-22T23:32:55+02:00</updated>
     <author>
         <name>Guisch</name>
     </author>
@@ -43,16 +43,10 @@ malvetro.corsica. 442 IN A 185.199.110.153
 malvetro.corsica. 442 IN A 185.199.109.153
 malvetro.corsica. 442 IN A 185.199.108.153
 malvetro.corsica. 442 IN A 185.199.111.153</code></pre>
-<p>Those IP addresses were familiar—they belong to GitHub Pages. My root domain (<code>malvetro.corsica</code>) was legitimately pointing there for my GitHub Pages site. But I'd never configured the <code>ftp</code> subdomain. Checking my DNS records at OVH revealed something disturbing:</p>
+<p>Those IP addresses were familiar—they belong to GitHub Pages. My root domain (<code>malvetro.corsica</code>) was legitimately pointing there for my GitHub Pages site. But I'd never configured the <code>ftp</code> subdomain. Checking my DNS records at OVH revealed something disturbing:</p>
 <div class="w-full md:max-w-[90vw]">
 <div class="codeWrapper text-textMainDark selection:!text-superDark selection:bg-superDuper/10 bg-offset dark:bg-offsetDark my-md relative flex flex-col rounded font-mono text-sm font-thin">
-<div class="translate-y-xs -translate-x-xs bottom-xl mb-xl sticky top-0 flex h-0 items-start justify-end">
-<div class="flex items-center min-w-0 font-medium gap-1.5 justify-center">
-<div class="flex shrink-0 items-center justify-center size-4"> </div>
-</div>
-</div>
 <div class="-mt-xl">
-<div> </div>
 <div class="pr-lg">
 <pre class="language-bash"><code>$ dig ftp.malvetro.corsica +noall +answer -t CNAME
 ftp.malvetro.corsica. 430 IN CNAME malvetro.corsica.</code></pre>
