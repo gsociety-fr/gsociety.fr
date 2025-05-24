@@ -3,7 +3,7 @@
     <title>GSociety</title>
     <link href="https://gsociety.fr/feed.xml" rel="self" />
     <link href="https://gsociety.fr" />
-    <updated>2025-05-23T01:50:07+02:00</updated>
+    <updated>2025-05-24T19:53:10+02:00</updated>
     <author>
         <name>Guisch</name>
     </author>
@@ -36,15 +36,27 @@
                     <p><img src="https://gsociety.fr/media/posts/2/ChatGPT-Image-22-mai-2025-01_06_22.png" class="type:primaryImage" alt="The GitHub octopus fighting on Helldivers 2 environment" /></p>
                 <div id="divTOC" class="post__toc"><h3 id="h3TOC">Table of Contents</h3><ul id="ulTOC" class="toc"><li class="toc-h2"><a href="#toc-0">The Initial Discovery</a></li><li class="toc-h2"><a href="#toc-1">Down the Rabbit Hole</a></li><li class="toc-h2"><a href="#toc-2">Taking It to The Next Level</a></li><li class="toc-h2"><a href="#toc-3">Why This Matters: The Anatomy of a Subdomain Takeover</a></li><li class="toc-h2"><a href="#toc-4">The Security Implications Are Severe</a></li><li class="toc-h2"><a href="#toc-5">Recommendations: A Shared Responsibility</a><ul><li class="toc-h3"><a href="#toc-6">For GitHub:</a></li><li class="toc-h3"><a href="#toc-7">For Registrars (like OVH):</a></li></ul></li><li class="toc-h2"><a href="#toc-8">The Big Picture</a></ul><span class="more-less"></span></div>
 <p>I was deep into an intense Helldivers 2 session when Google Search Console notifications interrupted my battle against the alien hordes. Someone had claimed ownership of a subdomain I didn't even know existed: <code>ftp.malvetro.corsica</code>.</p>
-<p class="my-0">Within minutes, I went from fighting digital aliens to investigating a real security incident, one that would eventually reveal a massive vulnerability affecting thousands of domains worldwide. More concerning? GitHub knows about it and isn't fixing it.</p>
+<div class="gallery-wrapper"><div class="gallery"  data-is-empty="false" data-translation="Add images" data-columns="2">
+<figure class="gallery__item"><a href="https://gsociety.fr/media/posts/2/gallery/312644962-67cdc6d7-7135-4dac-a063-fdd445e66c04.png" data-size="593x292"><img decoding="auto" loading="lazy" src="https://gsociety.fr/media/posts/2/gallery/312644962-67cdc6d7-7135-4dac-a063-fdd445e66c04-thumbnail.png" alt="New owner for ftp.malvetro.corsica" width="593" height="292"></a></figure>
+<figure class="gallery__item"><a href="https://gsociety.fr/media/posts/2/gallery/312645004-0a04fcf6-863c-4cd7-a065-50cba1a1fbc2.png" data-size="584x290"><img decoding="auto" loading="lazy" src="https://gsociety.fr/media/posts/2/gallery/312645004-0a04fcf6-863c-4cd7-a065-50cba1a1fbc2-thumbnail.png" alt="New owner for ftp.malvetro.corsica" width="584" height="290"></a></figure>
+</div></div>
+<p>Within minutes, I went from fighting digital aliens to investigating a real security incident, one that would eventually reveal a massive vulnerability affecting thousands of domains worldwide. More concerning? GitHub knows about it and isn't fixing it.</p>
+<hr>
 <h2 id="toc-0">The Initial Discovery</h2>
-<p class="my-0">Opening the suspicious subdomain revealed a gaudy online gambling site plastered across what should have been my family's vacation rental website. My first instinct: someone had compromised my domain registrar account. But the truth turned out to be more insidious.</p>
+<p class="my-0">Opening the suspicious subdomain revealed a gaudy online gambling site plastered.</p>
+<div class="gallery-wrapper"><div class="gallery"  data-is-empty="false" data-translation="Add images" data-columns="1">
+<figure class="gallery__item"><a href="https://gsociety.fr/media/posts/2/gallery/312642997-ac03ecca-8478-4c0e-b20f-6e83ce019230.png" data-size="1143x1240"><img decoding="auto" loading="lazy" src="https://gsociety.fr/media/posts/2/gallery/312642997-ac03ecca-8478-4c0e-b20f-6e83ce019230-thumbnail.png" alt="A gaudy online gambling site" width="768" height="833"></a></figure>
+</div></div>
+<p>My first instinct: someone had compromised my domain registrar account. But the truth turned out to be more insidious.</p>
 <pre class="language-bash"><code>$ dig malvetro.corsica +noall +answer -t A
 malvetro.corsica. 442 IN A 185.199.110.153
 malvetro.corsica. 442 IN A 185.199.109.153
 malvetro.corsica. 442 IN A 185.199.108.153
 malvetro.corsica. 442 IN A 185.199.111.153</code></pre>
 <p>Those IP addresses were familiar—they belong to GitHub Pages. My root domain (<code>malvetro.corsica</code>) was legitimately pointing there for my GitHub Pages site. But I'd never configured the <code>ftp</code> subdomain. Checking my DNS records at OVH revealed something disturbing:</p>
+<div class="gallery-wrapper"><div class="gallery"  data-is-empty="false" data-translation="Add images" data-columns="3">
+<figure class="gallery__item"><a href="https://gsociety.fr/media/posts/2/gallery/312643820-136a0a52-9ed7-4c6b-b0b6-760bd63f603d.png" data-size="1250x36"><img decoding="auto" loading="lazy" src="https://gsociety.fr/media/posts/2/gallery/312643820-136a0a52-9ed7-4c6b-b0b6-760bd63f603d-thumbnail.png" alt="OVH DNS records" width="768" height="22"></a></figure>
+</div></div>
 <div class="w-full md:max-w-[90vw]">
 <div class="codeWrapper text-textMainDark selection:!text-superDark selection:bg-superDuper/10 bg-offset dark:bg-offsetDark my-md relative flex flex-col rounded font-mono text-sm font-thin">
 <div class="-mt-xl">
@@ -57,8 +69,12 @@ ftp.malvetro.corsica. 430 IN CNAME malvetro.corsica.</code></pre>
 </div>
 <p class="my-0">This CNAME record had been created automatically by my registrar without my knowledge, pointing to my main domain. Since my main domain used GitHub Pages, anyone could claim this subdomain by creating their own GitHub Pages site with the same subdomain in their repository's CNAME file.</p>
 <p class="my-0"><strong>This wasn't a sophisticated hack—it was a systematic exploitation of common DNS practices, GitHub Pages configuration, and lack of domain verification.</strong></p>
+<hr>
 <h2 id="toc-1">Down the Rabbit Hole</h2>
 <p class="my-0">To understand the scope, I needed to see if this was an isolated incident or part of a pattern. Searching GitHub for "HANTUSLOT" (the gambling site name) revealed several repositories using the same template across various subdomains.</p>
+<div class="gallery-wrapper"><div class="gallery"  data-is-empty="false" data-translation="Add images" data-columns="1">
+<figure class="gallery__item"><a href="https://gsociety.fr/media/posts/2/gallery/312648962-2b00b7f0-d6c0-423a-ba69-f0dd13c97d1c_cropped.png" data-size="934x1073"><img decoding="auto" loading="lazy" src="https://gsociety.fr/media/posts/2/gallery/312648962-2b00b7f0-d6c0-423a-ba69-f0dd13c97d1c_cropped-thumbnail.png" alt="Github Code Search of 'HANTUSLOT'" width="768" height="882"></a></figure>
+</div></div>
 <p class="my-0">But GitHub's search was too limited for a comprehensive analysis. I turned to the GitHub CLI to dig deeper:</p>
 <div class="w-full md:max-w-[90vw]">
 <div class="codeWrapper text-textMainDark selection:!text-superDark selection:bg-superDuper/10 bg-offset dark:bg-offsetDark my-md relative flex flex-col rounded font-mono text-sm font-thin">
@@ -120,9 +136,19 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
      37 www
      48 mail
    2091 ftp</code></pre>
-<p class="my-0">The results were staggering. The frequency analysis revealed <strong>2091 instances of "ftp" subdomains</strong> being targeted. Other common targets included "mail" (48 instances), "www" (37), "webmail" (26), and other standard subdomains often created by default by domain registrars.</p>
+<p class="my-0">The results were staggering. The frequency analysis revealed <strong>2091 instances of "ftp" subdomains</strong> being targeted. Other common targets included "mail" (48 instances), "www" (37), "webmail" (26), and other standard subdomains often created by default by domain registrars. You can find the list of all subdomains <a href="You can find the list of all subdomains here: https://github.com/Guisch/security-incident-20240313-github-page/blob/main/repositories/subdomains">here</a>. There are likely subdomains in the list that are legitimate, but I don't see cases where one would host a GitHub Pages on an <code>ftp</code> subdomain. This confirms my belief that:</p>
+<ul dir="auto">
+<li>Attackers are using automated tools.</li>
+<li><code>ftp</code> is generated by default on some registrars.</li>
+</ul>
+<p dir="auto">The subdomain takeover is quite well-known. Take, for example, <a href="https://github.com/EdOverflow/can-i-take-over-xyz"  class="extlink extlink-icon-1"  >can-i-take-over-xyz</a>, a superb tool for checking how to takeover domains or dangling subdomains with unused CNAME DNS records like mine. This is discussed in this issue: <a href="https://github.com/EdOverflow/can-i-take-over-xyz/issues/68#issuecomment-1949450029"  data-error-text="Failed to load title" data-id="381868125" data-permission-text="Title is private" data-url="https://github.com/EdOverflow/can-i-take-over-xyz/issues/68" data-hovercard-type="issue" data-hovercard-url="/EdOverflow/can-i-take-over-xyz/issues/68/hovercard?comment_id=1949450029&amp;comment_type=issue_comment" class="issue-link js-issue-link extlink extlink-icon-1"  >EdOverflow/can-i-take-over-xyz#68 (comment)</a>. To GitHub credits, they actually "warns" about it in the <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#about-custom-domain-configuration"  class="extlink extlink-icon-1"  >documentation</a>:</p>
+<blockquote>
+<p dir="auto">We recommend verifying your custom domain prior to adding it to your repository, in order to improve security and avoid takeover attacks.</p>
+</blockquote>
+<p dir="auto">However, here the source of the issue is not on a legacy subdomain that wasn't properly decommissioned but a subdomain generated by default by the registrar.</p>
+<hr>
 <h2 id="toc-2">Taking It to The Next Level</h2>
-<p class="my-0">The scale of this vulnerability demanded a more comprehensive approach. I developed a custom tool that:</p>
+<p class="my-0">The scale of this vulnerability demanded a more comprehensive approach. I developed a custom tool in Python that:</p>
 <ol class="marker:text-textOff list-decimal">
 <li>
 <p class="my-0">Used public reverse DNS data to identify all domains and subdomains pointing to GitHub Pages IPs</p>
@@ -134,13 +160,17 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
 <p class="my-0">Systematically identified vulnerable domains and subdomains</p>
 </li>
 </ol>
-<p class="my-0">The result? I was able to take over approximately <strong>4,000 domains and subdomains</strong> in less than three weeks before GitHub banned my account.</p>
+<p class="my-0">The result? I was able to take over approximately <strong>5,000 domains and subdomains</strong> in less than three weeks before GitHub banned my account.</p>
+<div class="gallery-wrapper"><div class="gallery"  data-is-empty="false" data-translation="Add images" data-columns="1">
+<figure class="gallery__item"><a href="https://gsociety.fr/media/posts/2/gallery/Screenshot-2025-05-23-at-10.38.50.png" data-size="1670x1832"><img decoding="auto" loading="lazy" src="https://gsociety.fr/media/posts/2/gallery/Screenshot-2025-05-23-at-10.38.50-thumbnail.png" alt="Automated domain takeover" width="768" height="843"></a></figure>
+</div></div>
 <p class="my-0">While the ban was technically justified under their Acceptable Use Policy, I hadn't been using these takeovers for malicious purposes. In fact, I redirected affected users to GitHub's documentation on how to regain control of their domains.</p>
 <p class="my-0"><strong>I had already reported this vulnerability to GitHub via HackerOne in March 2024, but their response was dismissive:</strong></p>
 <blockquote>
-<p class="my-0">"We have determined that it is a known issue that does not present a significant security risk. We may make this functionality more strict in the future, but we don't have anythingto announce right now.</p>
+<p class="my-0">We have determined that it is a known issue that does not present a significant security risk. We may make this functionality more strict in the future, but we don't have anythingto announce right now.</p>
 </blockquote>
-<p class="my-0">A year later, in May 2025, nothing has changed.</p>
+<p class="my-0">A year later, in May 2025, <a href="https://github.com/EdOverflow/can-i-take-over-xyz/issues/68#issuecomment-2870782169"  class="extlink extlink-icon-1"  >nothing has changed</a>.</p>
+<hr>
 <h2 id="toc-3">Why This Matters: The Anatomy of a Subdomain Takeover</h2>
 <p class="my-0">The vulnerability pattern follows a predictable flow:</p>
 <ol class="marker:text-textOff list-decimal">
@@ -158,6 +188,7 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
 </li>
 </ol>
 <p class="my-0">The worst cases involved wildcard CNAME records that redirected any subdomain to the main domain, making infinite subdomain takeovers possible.</p>
+<hr>
 <h2 id="toc-4">The Security Implications Are Severe</h2>
 <p class="my-0">Subdomain takeovers enable attackers to:</p>
 <ol class="marker:text-textOff list-decimal">
@@ -178,6 +209,7 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
 </li>
 </ol>
 <p class="my-0">For organizations using GitHub Pages, this represents a significant, unaddressed security risk hiding in plain sight.</p>
+<hr>
 <h2 id="toc-5">Recommendations: A Shared Responsibility</h2>
 <h3 class="mb-xs mt-5 text-base font-[500] first:mt-0 dark:font-[475]">For Domain Owners and Security Teams:</h3>
 <ol class="marker:text-textOff list-decimal">
@@ -185,13 +217,13 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
 <p class="my-0"><strong>Audit all your DNS records</strong>, particularly automatically created subdomains</p>
 </li>
 <li>
-<p class="my-0"><strong>Remove unnecessary CNAME records</strong> pointing to your main domain</p>
+<p class="my-0"><strong>Remove unnecessary CNAME records</strong> pointing to your main domain, especially the auto-generated ones created by the registrar</p>
 </li>
 <li>
-<p class="my-0"><strong>Set up Google Search Console</strong> with domain verification to be alerted of ownership claims</p>
+<p class="my-0"><strong>Set up Google Search Console</strong> with DNS domain verification to be alerted of ownership claims on the Search Console</p>
 </li>
 <li>
-<p class="my-0"><strong>Verify custom domains for GitHub Pages</strong> using GitHub's verification system</p>
+<p class="my-0"><strong>Verify custom domains for GitHub Pages</strong> using GitHub's DNS verification system</p>
 </li>
 <li>
 <p class="my-0"><strong>Monitor for new subdomains</strong> on an ongoing basis</p>
@@ -224,6 +256,7 @@ $ cat subdomains | cut -d. -f1 | sort | uniq -c | sort -n
 <p class="my-0"><strong>Implement verification steps</strong> for subdomain creation</p>
 </li>
 </ol>
+<hr>
 <h2 id="toc-8">The Big Picture</h2>
 <p class="my-0">This issue represents a classic case of responsibility diffusion. GitHub claims it's the domain owners' responsibility to verify their domains. Domain registrars create potentially vulnerable subdomains without warning. Domain owners often don't know what they don't know.</p>
 <p class="my-0">Meanwhile, attackers are systematically exploiting this gap—I personally identified and could have maliciously taken over 4,000 domains with minimal effort. The real number of vulnerable domains is likely much higher.</p>
