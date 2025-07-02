@@ -3,7 +3,7 @@
     <title>GSociety</title>
     <link href="https://gsociety.fr/feed.xml" rel="self" />
     <link href="https://gsociety.fr" />
-    <updated>2025-07-02T17:59:08+02:00</updated>
+    <updated>2025-07-02T18:12:52+02:00</updated>
     <author>
         <name>Guisch</name>
     </author>
@@ -47,7 +47,7 @@
 </ul>
 </div>
 <p data-start="382" data-end="717">👋 I’m part of <a href="https://www.secatscale.fr/" data-start="397" data-end="437"  target="_new"  class=" extlink extlink-icon-1"  rel="noopener">SecAtScale</a>, an association of security leaders from startups and scaleups across the French tech ecosystem. I’ve been lucky enough to contribute to the annual benchmark of SecAtScale (only as a reviewer): the <strong data-start="601" data-end="615">Pulse 2025</strong>, a no-BS survey of 82 security leaders mostly from FrenchTech companies — from seed-stage to well-funded unicorns.</p>
-<p data-start="382" data-end="717"><div class="post__iframe"><iframe loading="lazy" width="504" height="1387" src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7346086037133094912" frameborder="0" allowfullscreen="allowfullscreen" title="Embedded post"></iframe></div>
+<p data-start="382" data-end="717"><div class="post__iframe"><iframe loading="lazy" width="504" height="568" src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7346086037133094912?collapsed=1" frameborder="0" allowfullscreen="allowfullscreen" title="Embedded post"></iframe></div>
 <p data-start="719" data-end="1047">The goal? Describe the security landscape and help each other figure out what to focus on, and what to stop pretending matters. SecAtScale asks the questions no vendor whitepaper wants you to read. I reviewed the results and decided to share my take on them — as someone who’s been the only security person at a startup, built programs from scratch, and still has <a href="https://gsociety.fr/the-great-subdomain-heist/" title="Link to my previous article" target="_blank" rel="noopener noreferrer">DNS PTSD</a>.</p>
 <p data-start="1049" data-end="1063">Let’s dive in.</p>
 <hr data-start="1065" data-end="1068">
