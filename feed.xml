@@ -3,12 +3,152 @@
     <title>GSociety</title>
     <link href="https://gsociety.fr/feed.xml" rel="self" />
     <link href="https://gsociety.fr" />
-    <updated>2025-07-02T18:46:47+02:00</updated>
+    <updated>2025-08-24T01:46:17+02:00</updated>
     <author>
         <name>Guisch</name>
     </author>
     <id>https://gsociety.fr</id>
 
+    <entry>
+        <title>The Day I Logged in With a Hash</title>
+        <author>
+            <name>Guisch</name>
+        </author>
+        <link href="https://gsociety.fr/the-day-i-logged-in-with-a-hash/"/>
+        <id>https://gsociety.fr/the-day-i-logged-in-with-a-hash/</id>
+        <media:content url="https://gsociety.fr/media/posts/6/ChatGPT-Image-24-aout-2025-01_46_01.png" medium="image" />
+            <category term="simplelogin"/>
+            <category term="email security"/>
+            <category term="disclosure"/>
+            <category term="authentication"/>
+            <category term="2FA"/>
+
+        <updated>2025-08-23T17:06:27+02:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://gsociety.fr/media/posts/6/ChatGPT-Image-24-aout-2025-01_46_01.png" alt="" />
+                    I’ve said it before: a single password per account isn’t enough anymore.
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://gsociety.fr/media/posts/6/ChatGPT-Image-24-aout-2025-01_46_01.png" class="type:primaryImage" alt="" /></p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1j3bo2jp99p">🚀 Enter SimpleLogin (and a Throwback)</a></li>
+<li><a href="#mcetoc_1j3bo2jp99q">🔑 The Problem: Losing 2FA</a></li>
+<li><a href="#mcetoc_1j3bo2jp99r">🕵️ The Discovery</a></li>
+<li><a href="#mcetoc_1j3bo2jp99s">📜 The Code Behind the Bug</a></li>
+<li><a href="#mcetoc_1j3bo2jp99t">📨 Disclosure (and Frustration)</a></li>
+<li><a href="#mcetoc_1j3bo2jp99u">🛠️ The Fix</a></li>
+<li><a href="#mcetoc_1j3bo2jp99v">💡 Lessons Learned</a></li>
+<li><a href="#mcetoc_1j3bo2jp9a0">🔒 Why This Matters</a></li>
+</ul>
+</div>
+<p data-start="387" data-end="465">I’ve said it before: <strong data-start="408" data-end="463">a single password per account isn’t enough anymore.</strong></p>
+<p data-start="467" data-end="747">If you care even a little about your online footprint, you should be thinking about <strong data-start="551" data-end="576">one email per account</strong> too. Why? Because your email address <em data-start="614" data-end="618">is</em> your identity online. And just like password reuse, reusing the same email everywhere makes you predictable and easy to track.</p>
+<p data-start="749" data-end="1004">For years, I tried to solve this with Gmail “+” aliases. You know the trick: <code data-start="826" data-end="854">ghislain+twitter@gmail.com</code>. It works… until it doesn’t. Bad actors now routinely strip the “+” part when they test leaked creds (<a href="https://krebsonsecurity.com/2022/08/the-security-pros-and-cons-of-using-email-aliases/comment-page-3/" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">source</a>). Suddenly, my neat aliasing trick was useless.</p>
+<p data-start="1006" data-end="1046">So I went hunting for a better option.</p>
+<hr data-start="1048" data-end="1051">
+<h2 id="mcetoc_1j3bo2jp99p" data-start="1053" data-end="1096">🚀 Enter SimpleLogin (and a Throwback)</h2>
+<p data-start="1098" data-end="1251">I’ve been looking for a platform like <a href="https://github.com/simple-login" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">SimpleLogin</a> for years. In fact, as a student I even <em data-start="1188" data-end="1202">built my own</em>: <a href="https://github.com/guisch/Keemail" target="_blank"  class="extlink extlink-icon-1"  rel="noopener noreferrer">Keemail</a>.</p>
+<p data-start="1253" data-end="1275">Spoiler: it was bad.</p>
+<ul data-start="1276" data-end="1372">
+<li data-start="1276" data-end="1290">
+<p data-start="1278" data-end="1290">No polish.</p>
+</li>
+<li data-start="1291" data-end="1317">
+<p data-start="1293" data-end="1317">Missing core features.</p>
+</li>
+<li data-start="1318" data-end="1372">
+<p data-start="1320" data-end="1372">Wouldn’t survive today’s email security standards.</p>
+</li>
+</ul>
+<p data-start="1374" data-end="1447">But the idea was there — unique emails per service, created via API, privacy by default.</p>
+<p data-start="1449" data-end="1752">When I discovered SimpleLogin, I was instantly sold. It did everything I wanted, way better. I’ve been self-hosting it for years now. <a href="https://simplelogin.io/blog/simplelogin-join-proton/" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">Proton eventually acquired them</a> and integrated it into their suite, but the original team deserves huge kudos. It’s one of those rare projects that just <em data-start="1736" data-end="1749">makes sense</em>.</p>
+<p data-start="1754" data-end="1956">For the uninitiated: <strong data-start="1775" data-end="1842">SimpleLogin lets you create unlimited email aliases on the fly.</strong> You hand those out instead of your real email. If one gets spammed, you just kill it. Clean, simple, brilliant.</p>
+<hr data-start="1958" data-end="1961">
+<h2 id="mcetoc_1j3bo2jp99q" data-start="1963" data-end="1994">🔑 The Problem: Losing 2FA</h2>
+<p data-start="1996" data-end="2157">Fast forward to last year. I changed phones and lost access to the 2FA on my main SimpleLogin account. No big deal — that’s what recovery codes are for, right?</p>
+<p data-start="2159" data-end="2235">Except… I hadn’t saved mine. (Yes, yes, I know. Do as I say, not as I do.)</p>
+<p data-start="2237" data-end="2326">So now I was stuck. Out of curiosity — and, let’s be honest, a bit of fun — I wondered:</p>
+<p data-start="2328" data-end="2419"><em data-start="2328" data-end="2417">Could I regenerate the codes? Or at least poke around in the DB to see what was stored?</em></p>
+<hr data-start="2421" data-end="2424">
+<h2 id="mcetoc_1j3bo2jp99r" data-start="2426" data-end="2448">🕵️ The Discovery</h2>
+<p data-start="2450" data-end="2558">I checked the database. Good news: the recovery codes weren’t in plain text. They were hashed. Nice touch.</p>
+<p data-start="2560" data-end="2632">Bad news (or so I thought): that meant I couldn’t just copy-paste one.</p>
+<p data-start="2634" data-end="2754">But then I tried something dumb. I copied the full hashed recovery code from the DB and pasted it into the login form.</p>
+<p data-start="2756" data-end="2768">It worked.</p>
+<p data-start="2770" data-end="2824">I thought it was a fluke. Tried again. Still worked.</p>
+<p data-start="2826" data-end="2870">At this point my brain went: <em data-start="2855" data-end="2868">wait, what?</em></p>
+<hr data-start="2872" data-end="2875">
+<h2 id="mcetoc_1j3bo2jp99s" data-start="2877" data-end="2908">📜 The Code Behind the Bug</h2>
+<p data-start="2910" data-end="2981">A quick look at the <a href="https://github.com/simple-login/app/blob/faeddc365c602f8aa672b0f05f09af1605da46d1/app/models.py#L2723-L2729" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">source</a> confirmed it. In the recovery code lookup:</p>
+<div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary">
+<div class="overflow-y-auto p-4" dir="ltr">
+<pre class="language-python"><code>def find_by_user_code(cls, user: User, code: str):
+    hashed_code = cls._hash_code(code)
+    # TODO: Only return hashed codes once there aren't unhashed codes in the db.
+    found_code = cls.get_by(user_id=user.id, code=hashed_code)
+    if found_code:
+        return found_code
+    return cls.get_by(user_id=user.id, code=code)
+</code></pre>
+</div>
+</div>
+<p data-start="3327" data-end="3341">Translation:</p>
+<ul data-start="3342" data-end="3439">
+<li data-start="3342" data-end="3371">
+<p data-start="3344" data-end="3371">They hash the user input.</p>
+</li>
+<li data-start="3372" data-end="3439">
+<p data-start="3374" data-end="3439">But if that doesn’t match, they also check the raw code column.</p>
+</li>
+</ul>
+<p data-start="3441" data-end="3498">So the <strong data-start="3448" data-end="3496">hashed recovery code itself was valid input.</strong></p>
+<p data-start="3500" data-end="3598">That’s the equivalent of storing passwords as hashes… but then letting you log in with the hash.</p>
+<hr data-start="3600" data-end="3603">
+<h2 id="mcetoc_1j3bo2jp99t" data-start="3605" data-end="3641">📨 Disclosure (and Frustration)</h2>
+<p data-start="3643" data-end="3722">I followed the responsible disclosure process and emailed SimpleLogin/Proton.</p>
+<p data-start="3724" data-end="3745">Their first answer?</p>
+<blockquote data-start="3746" data-end="3857">
+<p data-start="3748" data-end="3857"><em data-start="3748" data-end="3855">If an attacker has access to the DB, they can impersonate a user anyway. 2FA isn’t end-to-end encryption.</em></p>
+</blockquote>
+<p data-start="3859" data-end="3890">True, but… missing the point.</p>
+<p data-start="3892" data-end="4078">The point of hashing recovery codes is to prevent them from being directly usable if the DB leaks. By letting the hash itself authenticate, you’ve basically made them plain-text again.</p>
+<p data-start="4080" data-end="4184">Imagine if password hashes worked the same way. You’d laugh someone out of the room for suggesting it.</p>
+<p data-start="4186" data-end="4241">I explained this in a follow-up email. Then… silence.</p>
+<hr data-start="4243" data-end="4246">
+<h2 id="mcetoc_1j3bo2jp99u" data-start="4248" data-end="4264">🛠️ The Fix</h2>
+<p data-start="4266" data-end="4378">Three days later, still no response. So I opened a <a href="https://github.com/simple-login/app/pull/2132" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">public PR</a>.</p>
+<p data-start="4380" data-end="4485">The fix was straightforward: only ever compare <code>hashed(user_input)</code> to <code>stored_hashed(code)</code>. Nothing else.</p>
+<p data-start="4487" data-end="4531">It was merged within a week. Issue closed.</p>
+<hr data-start="4533" data-end="4536">
+<h2 id="mcetoc_1j3bo2jp99v" data-start="4538" data-end="4561">💡 Lessons Learned</h2>
+<p data-start="4563" data-end="4608">A few takeaways from this little adventure:</p>
+<ul data-start="4610" data-end="5271">
+<li data-start="4610" data-end="4764">
+<p data-start="4612" data-end="4764"><strong data-start="4612" data-end="4660">Even great products can make silly mistakes.</strong> I still love and use SimpleLogin. But this bug shows that no stack is immune to bad design shortcuts.</p>
+</li>
+<li data-start="4765" data-end="4891">
+<p data-start="4767" data-end="4891"><strong data-start="4767" data-end="4832">Hashing is meaningless if you treat the hash like the secret.</strong> This feels obvious, but it’s exactly what happened here.</p>
+</li>
+<li data-start="4892" data-end="5072">
+<p data-start="4894" data-end="5072"><strong data-start="4894" data-end="4928">Disclosure can be frustrating.</strong> I don’t blame the SimpleLogin team — I get it, priorities, context, “bigger picture.” But sometimes you need to insist. Politely, but firmly.</p>
+</li>
+<li data-start="5073" data-end="5271">
+<p data-start="5075" data-end="5271"><strong data-start="5075" data-end="5111">Student me wasn’t totally wrong.</strong> My Keemail project <em>failed</em>, but the core idea was right. Seeing SimpleLogin thrive, and even contributing a patch to fix a bug, was a nice full-circle moment.</p>
+</li>
+</ul>
+<hr data-start="5273" data-end="5276">
+<h2 id="mcetoc_1j3bo2jp9a0" data-start="5278" data-end="5302">🔒 Why This Matters</h2>
+<p data-start="5304" data-end="5430">This isn’t about dunking on a product I like. It’s about showing how small design choices in security have big consequences.</p>
+<p data-start="5432" data-end="5626">2FA is supposed to protect against stolen passwords. Recovery codes are supposed to protect against losing 2FA. But if your recovery codes can themselves be bypassed, the whole system weakens.</p>
+<p data-start="5628" data-end="5691">And that’s a lesson worth remembering far beyond SimpleLogin.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Startup Security in 2025: What Actually Matters</title>
         <author>
