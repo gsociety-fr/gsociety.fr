@@ -3,12 +3,148 @@
     <title>GSociety</title>
     <link href="https://gsociety.fr/feed.xml" rel="self" />
     <link href="https://gsociety.fr" />
-    <updated>2025-08-24T01:46:17+02:00</updated>
+    <updated>2025-10-17T00:22:16+02:00</updated>
     <author>
         <name>Guisch</name>
     </author>
     <id>https://gsociety.fr</id>
 
+    <entry>
+        <title>When Bots Pump Your OTPs (SMS Pumping)</title>
+        <author>
+            <name>Guisch</name>
+        </author>
+        <link href="https://gsociety.fr/when-bots-pump-your-otps-sms-pumping/"/>
+        <id>https://gsociety.fr/when-bots-pump-your-otps-sms-pumping/</id>
+        <media:content url="https://gsociety.fr/media/posts/7/ChatGPT-Image-16-oct.-2025-22_53_44.png" medium="image" />
+            <category term="webauthn"/>
+            <category term="tollfraud"/>
+            <category term="telecom security"/>
+            <category term="sms pumping"/>
+            <category term="fraud"/>
+
+        <updated>2025-10-16T22:53:58+02:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://gsociety.fr/media/posts/7/ChatGPT-Image-16-oct.-2025-22_53_44.png" alt="" />
+                    A few years ago, I spent several months chasing a weird kind&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://gsociety.fr/media/posts/7/ChatGPT-Image-16-oct.-2025-22_53_44.png" class="type:primaryImage" alt="" /></p>
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1j7nh6e7iqd">💬 The World Still Runs on SMS</a></li>
+<li><a href="#mcetoc_1j7nh6e7iqe">🚨 The First Signs</a></li>
+<li><a href="#mcetoc_1j7nh6e7iqf">🧱 What Didn’t Work</a></li>
+<li><a href="#mcetoc_1j7nh6e7iqg">🧰 What Actually Worked</a></li>
+<li><a href="#mcetoc_1j7nh6e7iqh">🧠 What I Learned</a></li>
+<li><a href="#mcetoc_1j7nh6e7iqi">🔒 Why SMS Needs to Go</a></li>
+<li><a href="#mcetoc_1j7nh6e7iqj">🏁 Closing thoughts</a></li>
+</ul>
+</div>
+<p data-start="417" data-end="572">A few years ago, I spent several months chasing a weird kind of fraud — the kind that doesn’t steal data, doesn’t hack users, but still burns real money.</p>
+<p data-start="574" data-end="604">It’s called <strong data-start="586" data-end="601">SMS Pumping</strong>.</p>
+<p data-start="606" data-end="864">At first, it looked like just “spam traffic.” Then it became a full-time cat-and-mouse game between our defenses and whoever was behind it.<br data-start="745" data-end="748">Here’s the story, what we tried, what failed, and what I’d recommend if you’re running authentication systems today.</p>
+<hr data-start="866" data-end="869">
+<h2 id="mcetoc_1j7nh6e7iqd" data-start="871" data-end="906">💬 The World Still Runs on SMS</h2>
+<p data-start="908" data-end="965">Even in 2025, SMS is still everywhere.<br data-start="946" data-end="949">It’s used for:</p>
+<ul data-start="966" data-end="1051">
+<li data-start="966" data-end="994">
+<p data-start="968" data-end="994">verifying phone numbers,</p>
+</li>
+<li data-start="966" data-end="994">
+<p data-start="968" data-end="994">logging in,</p>
+</li>
+<li data-start="1011" data-end="1051">
+<p data-start="1013" data-end="1051">and two-factor authentication (2FA).</p>
+</li>
+</ul>
+<p data-start="1053" data-end="1216">It’s not perfect, but it’s easy: no app to install, no setup friction, works on every device.<br data-start="1146" data-end="1149">That simplicity is exactly what makes it popular — and exploitable.</p>
+<p data-start="1218" data-end="1281">If you haven’t met <strong data-start="1237" data-end="1252">SMS Pumping</strong>, here’s the quick version:</p>
+<p data-start="1283" data-end="1539">Fraudsters abuse your “send me an OTP” endpoint to trigger thousands of messages to phone numbers they control. Those numbers are <strong data-start="1413" data-end="1453">premium-rate or international routes</strong> that generate a profit when messages are sent.<br data-start="1500" data-end="1503">You pay the bill; they take the cut.</p>
+<p data-start="1541" data-end="1882">As <a href="https://www.twilio.com/docs/verify/preventing-toll-fraud?utm_source=chatgpt.com" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">Twilio explains</a>, it’s a form of <strong data-start="1636" data-end="1675">Artificially Inflated Traffic (AIT)</strong> or <strong data-start="1679" data-end="1693">Toll Fraud</strong> — a telecom problem repackaged for web apps.<br data-start="1738" data-end="1741">Or, as <a href="https://datadome.co/fr/learning-center/quest-ce-que-le-sms-pumping-et-quel-est-son-impact-sur-votre-entreprise/" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">Datadome</a> puts it:</p>
+<blockquote data-start="1883" data-end="2046">
+<p data-start="1885" data-end="2046">Bots exploit OTP systems by injecting premium or international numbers into signup forms, creating massive artificial SMS volumes — and revenue for someone else.</p>
+</blockquote>
+<p data-start="2048" data-end="2131">No data breach, no ransomware, just your infrastructure quietly working <em data-start="2120" data-end="2130">for them</em>.</p>
+<hr data-start="2133" data-end="2136">
+<h2 id="mcetoc_1j7nh6e7iqe" data-start="2138" data-end="2161">🚨 The First Signs</h2>
+<p data-start="2163" data-end="2419">It started subtly. SMS verifications were fine one day, then slightly up the next.<br data-start="2245" data-end="2248">Soon, the metrics showed an order-of-magnitude increase in OTP requests.<br data-start="2320" data-end="2323">Nothing else had changed — no marketing campaign, no new feature rollout, no real user growth.</p>
+<p data-start="2421" data-end="2463">The pattern was clear only when zoomed in:</p>
+<ul data-start="2464" data-end="2633">
+<li data-start="2464" data-end="2528">
+<p data-start="2466" data-end="2528">Many numbers followed each other sequentially (like blocks).</p>
+</li>
+<li data-start="2529" data-end="2575">
+<p data-start="2531" data-end="2575">Most of them never completed verification.</p>
+</li>
+<li data-start="2576" data-end="2633">
+<p data-start="2578" data-end="2633">Traffic looked “normal enough” to pass basic filters.</p>
+</li>
+</ul>
+<p data-start="2635" data-end="2837">It wasn’t always a single big spike. It was distributed, blended into normal usage.<br data-start="2711" data-end="2714">That’s what makes SMS Pumping tricky — the goal is to make it <strong data-start="2776" data-end="2802">look like real traffic</strong>, so you don’t block it right away.</p>
+<hr data-start="2839" data-end="2842">
+<h2 id="mcetoc_1j7nh6e7iqf" data-start="2844" data-end="2868">🧱 What Didn’t Work</h2>
+<p data-start="2870" data-end="2973">We tried every textbook mitigation. Some slowed the fraud down for a while, but none fixed it for good.</p>
+<p data-start="2975" data-end="3082"><strong data-start="2975" data-end="3000">1. IP or ASN blocking</strong><br data-start="3000" data-end="3003">Attackers use proxies and mobile networks. The IPs rotate constantly — useless.</p>
+<p data-start="3084" data-end="3172"><strong data-start="3084" data-end="3113">2. Per-number rate limits</strong><br data-start="3113" data-end="3116">They just change numbers. Automation makes that trivial.</p>
+<p data-start="3174" data-end="3354"><strong data-start="3174" data-end="3193">3. GeoIP-blocking</strong><br data-start="3193" data-end="3196">Cutting off “risky” regions helped for a while, but traffic always found a detour.<br data-start="3278" data-end="3281">Also, legitimate users in new regions occasionally got blocked — not fun.</p>
+<p data-start="3356" data-end="3581"><strong data-start="3356" data-end="3385">4. Premium number filters</strong><br data-start="3385" data-end="3388">We used Google’s <a href="https://github.com/google/libphonenumber" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">libphonenumber</a> to reject known premium ranges.<br data-start="3495" data-end="3498">Worked in regulated markets, failed elsewhere. Metadata was incomplete or outdated.</p>
+<hr data-start="3950" data-end="3953">
+<h2 id="mcetoc_1j7nh6e7iqg" data-start="3955" data-end="3983">🧰 What Actually Worked</h2>
+<p data-start="3985" data-end="4116">After months of testing, we realized there’s no magic button.<br data-start="4046" data-end="4049">The only winning move was <strong data-start="4075" data-end="4115">layering multiple imperfect defenses</strong>.</p>
+<p data-start="3985" data-end="4116"><strong data-start="3583" data-end="3614">✅ Captcha / bot challenges</strong><br data-start="3614" data-end="3617">We deployed <a href="https://cloud.google.com/recaptcha/docs/sms-fraud-detection" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">reCAPTCHA Enterprise with SMS Fraud protection</a>. We were among the first users to beta test the feature. It's not a perfect solution: false positives were mostly controlled, but still present sometimes. But it really helped stop fraud as we were shifting from the "easy-target" to the "target that requires effort". What ultimately drove the decision was mainly the cheap cost, and the fact that competitor (market leader) was also using it. <br>However, according to <a href="https://2captcha.com/p/recaptcha_enterprise" target="_blank"  class="extlink extlink-icon-1"  rel="nofollow noopener noreferrer">2captcha.com</a>, solving costs around $2 per thousand CAPTCHAs — and it's not enough to kill fraudsters business model.</p>
+<p data-start="4118" data-end="4446"><strong data-start="4118" data-end="4150">✅ Prefix-based rate limiting</strong><br data-start="4150" data-end="4153">Instead of blocking individual numbers, we rate-limited based on the <strong data-start="4222" data-end="4232">prefix</strong> (first N digits).<br data-start="4250" data-end="4253">Fraudsters often used contiguous blocks, so this trapped whole batches.<br data-start="4324" data-end="4327">You just have to tune <em data-start="4349" data-end="4352">N</em> carefully — too broad and you block marketing campaigns, too narrow and you miss the pattern.</p>
+<p data-start="4448" data-end="4674"><strong data-start="4448" data-end="4490">✅ Geo-permissions on your SMS provider</strong><br data-start="4490" data-end="4493">Use your provider’s “geo-permissions” (Twilio, MessageBird, etc.) to disable delivery in markets where you don’t operate.<br data-start="4614" data-end="4617">Every unnecessary region is free profit for someone else.</p>
+<p data-start="4676" data-end="4755"><strong data-start="4676" data-end="4721">✅ Real-time monitoring and anomaly alerts</strong><br data-start="4721" data-end="4724">We built dashboards tracking:</p>
+<ul data-start="4756" data-end="4885">
+<li data-start="4756" data-end="4793">
+<p data-start="4758" data-end="4793">OTPs requested vs. OTPs completed</p>
+</li>
+<li data-start="4794" data-end="4819">
+<p data-start="4796" data-end="4819">cost per SMS provider</p>
+</li>
+<li data-start="4820" data-end="4856">
+<p data-start="4822" data-end="4856">fraud risk scores from reCAPTCHA</p>
+</li>
+<li data-start="4857" data-end="4885">
+<p data-start="4859" data-end="4885">SMS per region over time</p>
+</li>
+</ul>
+<p data-start="4887" data-end="4943">It’s manual work — but without a baseline, you’re blind.</p>
+<p data-start="4945" data-end="5147"><strong data-start="4945" data-end="4973">✅ Alternative auth flows</strong><br data-start="4973" data-end="4976">Slowly push users toward <strong data-start="5006" data-end="5025">non-SMS methods</strong> when possible: email links, push notifications, WebAuthN, you name it.<br data-start="5086" data-end="5089">Reducing exposure is the best mitigation you’ll ever have.</p>
+<hr data-start="5149" data-end="5152">
+<h2 id="mcetoc_1j7nh6e7iqh" data-start="5154" data-end="5176">🧠 What I Learned</h2>
+<p data-start="5178" data-end="5208">A few lessons stuck with me:</p>
+<ul data-start="5210" data-end="5682">
+<li data-start="5210" data-end="5328">
+<p data-start="5212" data-end="5328"><strong data-start="5212" data-end="5265">Fraudsters think in profit margins, not payloads.</strong><br data-start="5265" data-end="5268">If your SMS endpoint lets them earn, they’ll never stop.</p>
+</li>
+<li data-start="5330" data-end="5470">
+<p data-start="5332" data-end="5470"><strong data-start="5332" data-end="5385">Security teams need visibility, not just filters.</strong><br data-start="5385" data-end="5388">The hardest part wasn’t blocking — it was <em data-start="5432" data-end="5441">knowing</em> when we were under attack.</p>
+</li>
+<li data-start="5472" data-end="5582">
+<p data-start="5474" data-end="5582"><strong data-start="5474" data-end="5499">Every control decays.</strong><br data-start="5499" data-end="5502">Geo rules, blocklists, regexes — they rot the moment you stop updating them.</p>
+</li>
+<li data-start="5584" data-end="5682">
+<p data-start="5586" data-end="5682"><strong data-start="5586" data-end="5617">No tool beats common sense.</strong><br data-start="5617" data-end="5620">Automation helps, but understanding your traffic helps more.</p>
+</li>
+</ul>
+<hr data-start="5684" data-end="5687">
+<h2 id="mcetoc_1j7nh6e7iqi" data-start="5689" data-end="5716">🔒 Why SMS Needs to Go</h2>
+<p data-start="5718" data-end="5855">I get it — SMS is easy. But it’s also fragile.<br data-start="5764" data-end="5767">Between SIM swaps, interception, and pumping fraud, it’s more of a tax than a feature.</p>
+<p data-start="5857" data-end="6010">Modern authentication standards like <strong data-start="5894" data-end="5906">WebAuthN</strong> and <strong data-start="5911" data-end="5923">passkeys</strong> exist for a reason.<br data-start="5943" data-end="5946">They’re phishing-resistant, cheap, and don’t depend on telcos.</p>
+<p data-start="6012" data-end="6158">So, if your product still uses SMS 2FA and you have the choice — <strong data-start="6077" data-end="6111">favor no-SMS whenever possible</strong>.<br data-start="6112" data-end="6115">SMS should be a fallback, not your default.</p>
+<hr data-start="6160" data-end="6163">
+<h2 id="mcetoc_1j7nh6e7iqj" data-start="6165" data-end="6203">🏁 Closing thoughts</h2>
+<p data-start="6248" data-end="6412">SMS authentication isn’t going anywhere, but it’s time to stop pretending it’s secure. If you're still using it, at least make sure you’re not paying fraudsters for the privilege. When SMS is your only viable option, treat it as a security liability — not a solution.<br data-start="414" data-end="417">Layer your defenses, monitor relentlessly, and plan your exit strategy. If you can move away from SMS, do it. You'll save money — and sleep.</p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>The Day I Logged in With a Hash</title>
         <author>
